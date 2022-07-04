@@ -1,4 +1,4 @@
-const sortContacts = (contacts) => {
+const sortContactsByLastName = (contacts) => {
     return contacts.sort(function (a, b) {
         const textA = a.last_name.toLowerCase();
         var textB = b.last_name.toLowerCase();
@@ -6,4 +6,4 @@ const sortContacts = (contacts) => {
     })
 }
 
-export default sortContacts
+export default sortContactsByLastName

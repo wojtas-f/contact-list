@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap'
 
 import TopBar from './Components/TopBar'
-import SingleContact from './Components/SingleContact'
+import SingleContact from './Components/Contact/SingleContact'
 
 import getContacts from './Services/getContacts';
-import sortContacts from './Utilities/sortContacts'
+import sortContactsByLastName from './Utilities/sortContacts'
 
 function App() {
   const [contacts, setContacts] = useState([])
@@ -15,7 +15,7 @@ function App() {
 
     if (!contactsResponse) return
 
-    contactsResponse = sortContacts(contactsResponse)
+    contactsResponse = sortContactsByLastName(contactsResponse)
     setContacts(contactsResponse)
   }
 
@@ -28,7 +28,7 @@ function App() {
       <TopBar />
       <Container>
         {contacts && contacts.map((contact, index) => {
-          return <SingleContact key={`contact_${index}`} />
+          return <SingleContact contact={contact} key={`contact_${index}`} />
         })}
       </Container>
     </Container>
