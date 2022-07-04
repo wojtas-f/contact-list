@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import ContactAvatar from './ContactAvatar'
+import ContactPlaceholderAvatar from './ContactPlaceholderAvatar';
 
 const SingleContact = ({ contact }) => {
     return (
         <div className="d-flex p-1 align-items-center">
-            <ContactAvatar avatar={contact.avatar} firstName={contact.first_name} lastName={contact.last_name} />
+            {contact.avatar ? <ContactAvatar avatar={contact.avatar} /> : <ContactPlaceholderAvatar firstName={contact.first_name} lastName={contact.last_name} />}
             <div className='d-flex flex-column ms-2'>
                 <div className="d-flex">
                     <span>{contact.first_name}</span>
@@ -17,6 +18,8 @@ const SingleContact = ({ contact }) => {
         </div>
     )
 }
+
+
 
 SingleContact.propTypes = {
     contact: PropTypes.shape({
