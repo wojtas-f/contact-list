@@ -5,13 +5,18 @@ import TopBar from './Components/TopBar'
 import SingleContact from './Components/SingleContact'
 
 import getContacts from './Services/getContacts';
+import sortContacts from './Utilities/sortContacts'
 
 function App() {
   const [contacts, setContacts] = useState([])
 
   const get = async () => {
-    const res = await getContacts()
-    if (res) setContacts(res)
+    let contactsResponse = await getContacts()
+
+    if (!contactsResponse) return
+
+    contactsResponse = sortContacts(contactsResponse)
+    setContacts(contactsResponse)
   }
 
   useEffect(() => {
