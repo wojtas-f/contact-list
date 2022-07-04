@@ -10,7 +10,7 @@ const SingleContact = ({ contact }) => {
             <div className='d-flex flex-column ms-2'>
                 <div className="d-flex">
                     <span>{contact.first_name}</span>
-                    <span>{contact.last_name}</span>
+                    <span className="ms-1">{contact.last_name}</span>
                 </div>
                 <span className="text-muted" style={{ fontSize: '0.6rem' }}>{contact.email}</span>
             </div>
