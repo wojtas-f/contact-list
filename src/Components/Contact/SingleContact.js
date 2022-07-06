@@ -1,11 +1,12 @@
 import React from 'react'
+import { ListGroup } from 'react-bootstrap'
 import PropTypes from 'prop-types';
 import ContactAvatar from './ContactAvatar'
 import ContactPlaceholderAvatar from './ContactPlaceholderAvatar';
 
 const SingleContact = ({ contact }) => {
     return (
-        <div className="d-flex p-1 align-items-center">
+        <ListGroup.Item className="d-flex p-1 align-items-center">
             {contact.avatar ? <ContactAvatar avatar={contact.avatar} /> : <ContactPlaceholderAvatar firstName={contact.first_name} lastName={contact.last_name} />}
             <div className='d-flex flex-column ms-2'>
                 <div className="d-flex">
@@ -15,11 +16,9 @@ const SingleContact = ({ contact }) => {
                 <span className="text-muted" style={{ fontSize: '0.6rem' }}>{contact.email}</span>
             </div>
 
-        </div>
+        </ListGroup.Item>
     )
 }
-
-
 
 SingleContact.propTypes = {
     contact: PropTypes.shape({
