@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import { ButtonGroup, Button } from 'react-bootstrap'
 
 
@@ -16,5 +17,15 @@ const ContactPagination = ({ nextPage, prevPage, selectPage, getPages, page, las
         </div>
     )
 }
+
+ContactPagination.propTypes = {
+    nextPage: PropTypes.func.isRequired,
+    prevPage: PropTypes.func.isRequired,
+    selectPage: PropTypes.func.isRequired,
+    getPages: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
+    lastPageIndex: PropTypes.number.isRequired,
+};
+
 
 export default ContactPagination
