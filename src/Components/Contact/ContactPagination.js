@@ -17,9 +17,9 @@ const ContactPagination = ({ setPage, selectPage, getPages, page, lastPageIndex 
         <div className="w-100 d-flex justify-content-center mt-4">
             <ButtonGroup>
                 <Button onClick={() => selectPage(1)} className="border border-secondary bg-secondary">First page</Button>
-                <Button onClick={() => prevPage()} className="border border-secondary bg-secondary">Previous</Button>
+                <Button onClick={() => prevPage()} className="border border-secondary bg-secondary">{"<"}</Button>
                 {getPages().map(pageIndex => <Button key={`${pageIndex}-page`} onClick={() => selectPage(pageIndex)} className={page === pageIndex ? 'bg-dark border border-secondary' : 'bg-secondary border border-secondary'}>{pageIndex}</Button>)}
-                <Button onClick={() => nextPage()} className="border border-secondary bg-secondary">Next</Button>
+                <Button onClick={() => nextPage()} className="border border-secondary bg-secondary">{">"}</Button>
                 <Button onClick={() => selectPage(lastPageIndex)} className="border border-secondary bg-secondary">Last page</Button>
             </ButtonGroup>
         </div>

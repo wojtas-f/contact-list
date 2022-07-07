@@ -63,19 +63,19 @@ function App() {
   }, []);
 
   return (
-    <Container fluid className="p-0">
+    <Container fluid className="p-0" style={{ height: '100vh' }}>
       <TopBar />
+      <Container className="d-flex flex-column justify-content-between">
+        <FloatingLabel controlId="floatingSearch" label="Search">
+          <Form.Control
+            type="search"
+            placeholder="Search"
+            onChange={(e) => setSearchPhrase(e.target.value)}
+            value={searchPhrase}
+          />
+        </FloatingLabel>
 
-      <FloatingLabel controlId="floatingSearch" label="Search">
-        <Form.Control
-          type="search"
-          placeholder="Search"
-          onChange={(e) => setSearchPhrase(e.target.value)}
-          value={searchPhrase}
-        />
-      </FloatingLabel>
 
-      <Container>
         <ListGroup>
           {contacts &&
             getPageContacts().map((contact) => (
