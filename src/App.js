@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, FloatingLabel, Form, ListGroup } from 'react-bootstrap';
 
 import TopBar from './Components/TopBar';
@@ -89,10 +89,10 @@ function App() {
       <Container>
         <ListGroup>
           {contacts &&
-            getPageContacts().map((contact, index) => (
+            getPageContacts().map((contact) => (
               <SingleContact
                 contact={contact}
-                key={`contact_${index}`}
+                key={`contact_${contact.email}`}
                 toggleContact={toggleContact}
                 isSelected={isSelected(contact)}
               />

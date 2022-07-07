@@ -19,7 +19,7 @@ module.exports = {
     'react',
   ],
   rules: {
-    "react/jsx-filename-extension": [0],
-    "react/function-component-definition": "arrow-function"
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/function-component-definition": [0]
   },
 };

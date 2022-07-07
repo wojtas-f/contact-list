@@ -6,7 +6,7 @@ const ContactAvatar = ({ avatar }) => (<img className="rounded-circle p-1 border
 
 
 ContactAvatar.propTypes = {
-    avatar: PropTypes.string,
+    avatar: PropTypes.string.isRequired,
 };
 
 
