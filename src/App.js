@@ -37,13 +37,15 @@ function App() {
   };
 
   const getPages = () => {
-    const start = Math.floor((page - 1) / pageSize) * pageSize;
-    return new Array(pageSize)
+    const numberOfPages = 5
+    const start = Math.floor((page - 1) / numberOfPages) * numberOfPages;
+    return new Array(numberOfPages)
       .fill()
       .map((_, pageId) => start + pageId + 1);
   };
 
   const toggleContact = (targetId) => {
+
     if (selectedContacts.includes(targetId)) {
       setSelectedContacts(
         selectedContacts.filter((id) => id !== targetId)
@@ -51,6 +53,9 @@ function App() {
     } else {
       setSelectedContacts([...selectedContacts, targetId]);
     }
+
+    // eslint-disable-next-line no-console
+    console.log('Selected contacts:', selectedContacts);
   };
 
   useEffect(() => {

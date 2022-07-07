@@ -25,7 +25,8 @@ const SingleContact = ({ contact, toggleContact, isSelected }) => {
                         type='checkbox'
                         id={`contact-selection-${contact.id}`}
                         aria-label={`select ${contact.first_name} ${contact.last_name}`}
-                        defaultChecked={selected}
+                        checked={selected}
+                        readOnly
                     />
 
                 </div>
