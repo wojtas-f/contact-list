@@ -11,6 +11,7 @@ import filterByPhrase from './Utilities/filter'
 
 function App() {
   const pageSize = 10;
+  const numberOfPages = 5;
   const [searchPhrase, setSearchPhrase] = useState('');
   const [contacts, setContacts] = useState([]);
   const [selectedContacts, setSelectedContacts] = useState([]);
@@ -18,9 +19,7 @@ function App() {
 
   const getContactsList = async () => {
     let contactsResponse = await getContacts();
-
     if (!contactsResponse) return;
-
     contactsResponse = sortContactsByLastName(contactsResponse);
     setContacts(contactsResponse);
   };
@@ -37,15 +36,15 @@ function App() {
   };
 
   const getPages = () => {
-    const numberOfPages = 5
-    const start = Math.floor((page - 1) / numberOfPages) * numberOfPages;
-    return new Array(numberOfPages)
+    const sizeOfCurrentContacts = filterByPhrase(contacts, searchPhrase).length;
+    const numberOfPagesToDisplay = sizeOfCurrentContacts < pageSize * numberOfPages ? sizeOfCurrentContacts / pageSize : numberOfPages
+    const start = Math.floor((page - 1) / numberOfPagesToDisplay) * numberOfPagesToDisplay;
+    return new Array(Math.ceil(numberOfPagesToDisplay))
       .fill()
       .map((_, pageId) => start + pageId + 1);
   };
 
   const toggleContact = (targetId) => {
-
     if (selectedContacts.includes(targetId)) {
       setSelectedContacts(
         selectedContacts.filter((id) => id !== targetId)
@@ -53,7 +52,6 @@ function App() {
     } else {
       setSelectedContacts([...selectedContacts, targetId]);
     }
-
     // eslint-disable-next-line no-console
     console.log('Selected contacts:', selectedContacts);
   };
