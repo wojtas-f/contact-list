@@ -7,6 +7,7 @@ import ContactPagination from './Components/Contact/ContactPagination';
 
 import getContacts from './Services/getContacts';
 import sortContactsByLastName from './Utilities/sortContacts';
+import filterByPhrase from './Utilities/filter'
 
 function App() {
   const pageSize = 10;
@@ -24,32 +25,15 @@ function App() {
     setContacts(contactsResponse);
   };
 
-  const getLastPageIndex = () => contacts.length / pageSize;
-
-  const nextPage = () => {
-    if (page < getLastPageIndex()) setPage(() => page + 1);
-  };
-
-  const prevPage = () => {
-    if (page > 1) setPage(() => page - 1);
-  };
+  const getLastPageIndex = () => filterByPhrase(contacts, searchPhrase).length / pageSize;
 
   const isSelected = (contact) => selectedContacts.includes(contact.id);
 
-
   const getPageContacts = () => {
-    let tempContactsTab = contacts
-    if (searchPhrase !== '') {
-      tempContactsTab = contacts.filter((contact) =>
-        `${contact.first_name} ${contact.last_name}`
-          .toLocaleLowerCase()
-          .includes(searchPhrase)
-      );
-    }
-
+    const tempContactsTab = filterByPhrase(contacts, searchPhrase)
     const firstPageContact = page * pageSize - pageSize;
-    const lastPagerContact = firstPageContact + pageSize;
-    return tempContactsTab.slice(firstPageContact, lastPagerContact);
+    const lastPageContact = firstPageContact + pageSize;
+    return tempContactsTab.slice(firstPageContact, lastPageContact);
   };
 
   const getPages = () => {
@@ -99,8 +83,7 @@ function App() {
             ))}
         </ListGroup>
         <ContactPagination
-          nextPage={nextPage}
-          prevPage={prevPage}
+          setPage={setPage}
           selectPage={setPage}
           getPages={getPages}
           page={page}
