@@ -1,7 +1,8 @@
 import getRequestConfig from './config'
 
 const getContacts = async () => {
-    const URL = "https://teacode-recruitment-challenge.s3.eu-central-1.amazonaws.com/users.json"
+    const URL = "http://localhost:3004/users"
+    console.log('users', URL)
     const response = await fetch(URL, getRequestConfig)
     if (!response) return false
 

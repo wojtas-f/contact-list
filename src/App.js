@@ -3,46 +3,26 @@ import { Container, FloatingLabel, Form, ListGroup } from 'react-bootstrap';
 
 import TopBar from './Components/TopBar';
 import SingleContact from './Components/Contact/SingleContact';
-import ContactPagination from './Components/Contact/ContactPagination';
 
 import getContacts from './Services/getContacts';
 import sortContactsByLastName from './Utilities/sortContacts';
-import filterByPhrase from './Utilities/filter'
+// import filterByPhrase from './Utilities/filter'
 
 function App() {
-  const pageSize = 10;
-  const numberOfPages = 5;
   const [searchPhrase, setSearchPhrase] = useState('');
   const [contacts, setContacts] = useState([]);
   const [selectedContacts, setSelectedContacts] = useState([]);
-  const [page, setPage] = useState(1);
 
   const getContactsList = async () => {
     let contactsResponse = await getContacts();
     if (!contactsResponse) return;
+    console.log(contactsResponse)
     contactsResponse = sortContactsByLastName(contactsResponse);
     setContacts(contactsResponse);
   };
 
-  const getLastPageIndex = () => filterByPhrase(contacts, searchPhrase).length / pageSize;
-
   const isSelected = (contact) => selectedContacts.includes(contact.id);
 
-  const getPageContacts = () => {
-    const tempContactsTab = filterByPhrase(contacts, searchPhrase)
-    const firstPageContact = page * pageSize - pageSize;
-    const lastPageContact = firstPageContact + pageSize;
-    return tempContactsTab.slice(firstPageContact, lastPageContact);
-  };
-
-  const getPages = () => {
-    const sizeOfCurrentContacts = filterByPhrase(contacts, searchPhrase).length;
-    const numberOfPagesToDisplay = sizeOfCurrentContacts < pageSize * numberOfPages ? sizeOfCurrentContacts / pageSize : numberOfPages
-    const start = Math.floor((page - 1) / numberOfPagesToDisplay) * numberOfPagesToDisplay;
-    return new Array(Math.ceil(numberOfPagesToDisplay))
-      .fill()
-      .map((_, pageId) => start + pageId + 1);
-  };
 
   const toggleContact = (targetId) => {
     if (selectedContacts.includes(targetId)) {
@@ -52,8 +32,6 @@ function App() {
     } else {
       setSelectedContacts([...selectedContacts, targetId]);
     }
-    // eslint-disable-next-line no-console
-    console.log('Selected contacts:', selectedContacts);
   };
 
   useEffect(() => {
@@ -76,7 +54,7 @@ function App() {
 
         <ListGroup>
           {contacts &&
-            getPageContacts().map((contact) => (
+            contacts.map((contact) => (
               <SingleContact
                 contact={contact}
                 key={`contact_${contact.email}`}
@@ -85,13 +63,6 @@ function App() {
               />
             ))}
         </ListGroup>
-        <ContactPagination
-          setPage={setPage}
-          selectPage={setPage}
-          getPages={getPages}
-          page={page}
-          lastPageIndex={getLastPageIndex()}
-        />
       </Container>
     </Container>
   );
