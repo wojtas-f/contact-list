@@ -8,14 +8,14 @@ const SingleContact = ({ contact, toggleContact, isSelected }) => {
     const [selected, setSelected] = useState(isSelected);
 
     const toggle = () => {
-        toggleContact(contact.id);
+        toggleContact(contact.uuid);
         setSelected(!selected);
     };
 
     return (
         <ListGroup.Item
             className="d-flex p-1 align-items-center"
-            onClick={() => toggle(contact.id)}
+            onClick={() => toggle(contact.uuid)}
         >
             {contact.avatar ? (
                 <ContactAvatar avatar={contact.avatar} />
@@ -38,7 +38,7 @@ const SingleContact = ({ contact, toggleContact, isSelected }) => {
                 <Form.Check
                     className="ms-1"
                     type="checkbox"
-                    id={`contact-selection-${contact.id}`}
+                    id={`contact-selection-${contact.uuid}`}
                     aria-label={`select ${contact.first_name} ${contact.last_name}`}
                     checked={selected}
                     readOnly
@@ -50,7 +50,7 @@ const SingleContact = ({ contact, toggleContact, isSelected }) => {
 
 SingleContact.propTypes = {
     contact: PropTypes.shape({
-        id: PropTypes.number.isRequired,
+        uuid: PropTypes.string.isRequired,
         first_name: PropTypes.string.isRequired,
         last_name: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,

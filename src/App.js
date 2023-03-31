@@ -6,7 +6,6 @@ import SingleContact from './Components/Contact/SingleContact';
 
 import getContacts from './Services/getContacts';
 import sortContactsByLastName from './Utilities/sortContacts';
-// import filterByPhrase from './Utilities/filter'
 
 function App() {
   const [searchPhrase, setSearchPhrase] = useState('');
