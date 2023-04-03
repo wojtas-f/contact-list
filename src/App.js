@@ -1,100 +1,72 @@
 import React, { useEffect, useState } from 'react';
-import { Container, FloatingLabel, Form, ListGroup } from 'react-bootstrap';
+import { Container, ListGroup } from 'react-bootstrap';
 
-import TopBar from './Components/TopBar';
+import Header from './Components/Header/Header';
 import SingleContact from './Components/Contact/SingleContact';
 import ContactPagination from './Components/Contact/ContactPagination';
+import Filters from './Components/Filters/Filters';
 
 import getContacts from './Services/getContacts';
 import sortContactsByLastName from './Utilities/sortContacts';
-import filterByPhrase from './Utilities/filter'
 
 function App() {
-  const pageSize = 10;
-  const numberOfPages = 5;
-  const [searchPhrase, setSearchPhrase] = useState('');
-  const [contacts, setContacts] = useState([]);
-  const [selectedContacts, setSelectedContacts] = useState([]);
-  const [page, setPage] = useState(1);
+    const [searchPhrase, setSearchPhrase] = useState('');
+    const [contacts, setContacts] = useState([]);
+    const [selectedContacts, setSelectedContacts] = useState([]);
+    const [page, setPage] = useState(1);
 
-  const getContactsList = async () => {
-    let contactsResponse = await getContacts();
-    if (!contactsResponse) return;
-    contactsResponse = sortContactsByLastName(contactsResponse);
-    setContacts(contactsResponse);
-  };
+    const getContactsList = async () => {
+        let contactsResponse = await getContacts(page, searchPhrase);
+        if (!contactsResponse) return;
+        contactsResponse = sortContactsByLastName(contactsResponse);
+        setContacts(contactsResponse);
+    };
 
-  const getLastPageIndex = () => filterByPhrase(contacts, searchPhrase).length / pageSize;
+    const isSelected = (contact) => selectedContacts.includes(contact.id);
 
-  const isSelected = (contact) => selectedContacts.includes(contact.id);
+    const toggleContact = (targetId) => {
+        if (selectedContacts.includes(targetId)) {
+            setSelectedContacts(
+                selectedContacts.filter((id) => id !== targetId)
+            );
+        } else {
+            setSelectedContacts([...selectedContacts, targetId]);
+        }
+    };
 
-  const getPageContacts = () => {
-    const tempContactsTab = filterByPhrase(contacts, searchPhrase)
-    const firstPageContact = page * pageSize - pageSize;
-    const lastPageContact = firstPageContact + pageSize;
-    return tempContactsTab.slice(firstPageContact, lastPageContact);
-  };
+    useEffect(() => {
+        getContactsList();
+    }, [page, searchPhrase]);
 
-  const getPages = () => {
-    const sizeOfCurrentContacts = filterByPhrase(contacts, searchPhrase).length;
-    const numberOfPagesToDisplay = sizeOfCurrentContacts < pageSize * numberOfPages ? sizeOfCurrentContacts / pageSize : numberOfPages
-    const start = Math.floor((page - 1) / numberOfPagesToDisplay) * numberOfPagesToDisplay;
-    return new Array(Math.ceil(numberOfPagesToDisplay))
-      .fill()
-      .map((_, pageId) => start + pageId + 1);
-  };
+    return (
+        <Container fluid className="p-0" style={{ height: '100vh' }}>
+            <Header />
+            <Container className="d-flex flex-column justify-content-between">
+                <Filters
+                    setSearchPhrase={setSearchPhrase}
+                    searchPhrase={searchPhrase}
+                />
 
-  const toggleContact = (targetId) => {
-    if (selectedContacts.includes(targetId)) {
-      setSelectedContacts(
-        selectedContacts.filter((id) => id !== targetId)
-      );
-    } else {
-      setSelectedContacts([...selectedContacts, targetId]);
-    }
-    // eslint-disable-next-line no-console
-    console.log('Selected contacts:', selectedContacts);
-  };
+                <ListGroup>
+                    {contacts &&
+                        contacts.map((contact) => (
+                            <SingleContact
+                                contact={contact}
+                                key={`contact_${contact.email}`}
+                                toggleContact={toggleContact}
+                                isSelected={isSelected(contact)}
+                            />
+                        ))}
+                </ListGroup>
 
-  useEffect(() => {
-    getContactsList();
-  }, []);
-
-  return (
-    <Container fluid className="p-0" style={{ height: '100vh' }}>
-      <TopBar />
-      <Container className="d-flex flex-column justify-content-between">
-        <FloatingLabel controlId="floatingSearch" label="Search">
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            onChange={(e) => setSearchPhrase(e.target.value)}
-            value={searchPhrase}
-          />
-        </FloatingLabel>
-
-
-        <ListGroup>
-          {contacts &&
-            getPageContacts().map((contact) => (
-              <SingleContact
-                contact={contact}
-                key={`contact_${contact.email}`}
-                toggleContact={toggleContact}
-                isSelected={isSelected(contact)}
-              />
-            ))}
-        </ListGroup>
-        <ContactPagination
-          setPage={setPage}
-          selectPage={setPage}
-          getPages={getPages}
-          page={page}
-          lastPageIndex={getLastPageIndex()}
-        />
-      </Container>
-    </Container>
-  );
+                <ContactPagination
+                    setPage={setPage}
+                    lastPageIndex={20}
+                    page={page}
+                />
+            </Container>
+        </Container>
+    );
 }
 
 export default App;

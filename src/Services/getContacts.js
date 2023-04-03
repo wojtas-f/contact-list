@@ -1,11 +1,18 @@
-import getRequestConfig from './config'
+import getRequestConfig from './config';
 
-const getContacts = async () => {
-    const URL = "https://teacode-recruitment-challenge.s3.eu-central-1.amazonaws.com/users.json"
-    const response = await fetch(URL, getRequestConfig)
-    if (!response) return false
+const getContacts = async (page = 1, search = '') => {
+    const urlString = 'http://localhost:3004/users';
+    const newUrl = new URL(urlString);
+    newUrl.searchParams.set('_page', page);
+    newUrl.searchParams.set('_limit', 10);
+    newUrl.searchParams.set('_order', 'asc');
+    newUrl.searchParams.set('_sort', 'last_name');
+    newUrl.searchParams.set('q', search);
 
-    return response.json()
-}
+    const response = await fetch(newUrl.href, getRequestConfig);
+    if (!response) return false;
 
-export default getContacts
+    return response.json();
+};
+
+export default getContacts;
