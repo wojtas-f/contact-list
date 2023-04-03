@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, ButtonGroup, ToggleButton } from 'react-bootstrap';
+import { ButtonGroup, ToggleButton } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 const LanguageSwitcher = () => {
@@ -21,29 +21,27 @@ const LanguageSwitcher = () => {
     };
 
     return (
-        <Container>
-            <ButtonGroup className="mb-2">
-                {languages.map((radio) => (
-                    <ToggleButton
-                        key={radio.name}
-                        id={`radio-${radio.name}`}
-                        type="radio"
-                        variant="secondary"
-                        name="radio"
-                        value={radio.value}
-                        checked={radioValue === radio.value}
-                        onChange={(e) =>
-                            handleLanguageChange(
-                                e.currentTarget.value,
-                                e.currentTarget.value
-                            )
-                        }
-                    >
-                        {radio.name}
-                    </ToggleButton>
-                ))}
-            </ButtonGroup>
-        </Container>
+        <ButtonGroup style={{ height: 'fit-content' }}>
+            {languages.map((radio) => (
+                <ToggleButton
+                    key={radio.name}
+                    id={`radio-${radio.name}`}
+                    type="radio"
+                    variant="secondary"
+                    name="radio"
+                    value={radio.value}
+                    checked={radioValue === radio.value}
+                    onChange={(e) =>
+                        handleLanguageChange(
+                            e.currentTarget.value,
+                            e.currentTarget.value
+                        )
+                    }
+                >
+                    {radio.name}
+                </ToggleButton>
+            ))}
+        </ButtonGroup>
     );
 };
 

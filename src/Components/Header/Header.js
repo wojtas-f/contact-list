@@ -11,11 +11,14 @@ const Header = () => {
             className="bg-dark text-white p-2 text-center"
             style={{ height: 'fit-content' }}
         >
-            <Row>
+            <Row className="mw-100">
                 <Col xs="10">
                     <h1 className="text-start">{t('header__title')}</h1>
                 </Col>
-                <Col xs="2">
+                <Col
+                    xs="2"
+                    className="d-flex justify-content-center align-items-center"
+                >
                     <LanguageSwitcher />
                 </Col>
             </Row>
