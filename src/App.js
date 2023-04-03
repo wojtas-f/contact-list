@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 
-import TopBar from './Components/TopBar';
+import Header from './Components/Header/Header';
 import SingleContact from './Components/Contact/SingleContact';
 import ContactPagination from './Components/Contact/ContactPagination';
 import Filters from './Components/Filters/Filters';
@@ -18,7 +18,6 @@ function App() {
     const getContactsList = async () => {
         let contactsResponse = await getContacts(page, searchPhrase);
         if (!contactsResponse) return;
-        console.log('contactsResponse:', contactsResponse);
         contactsResponse = sortContactsByLastName(contactsResponse);
         setContacts(contactsResponse);
     };
@@ -41,7 +40,7 @@ function App() {
 
     return (
         <Container fluid className="p-0" style={{ height: '100vh' }}>
-            <TopBar />
+            <Header />
             <Container className="d-flex flex-column justify-content-between">
                 <Filters
                     setSearchPhrase={setSearchPhrase}

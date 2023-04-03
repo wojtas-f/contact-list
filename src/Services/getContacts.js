@@ -1,7 +1,6 @@
 import getRequestConfig from './config';
 
 const getContacts = async (page = 1, search = '') => {
-    console.log('page:', page);
     const urlString = 'http://localhost:3004/users';
     const newUrl = new URL(urlString);
     newUrl.searchParams.set('_page', page);
